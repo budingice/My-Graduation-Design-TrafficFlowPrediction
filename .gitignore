@@ -5,6 +5,11 @@
 Thumbs.db
 desktop.ini
 
+# 忽略所有 CSV 数据文件
+*.csv
+# 或者忽略整个数据文件夹
+Dataset/
+
 # --- Python (如果你用 Python) ---
 __pycache__/
 *.py[cod]
