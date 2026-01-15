@@ -1,0 +1,13 @@
+# --- 通用临时文件 ---
+.vscode/
+.idea/
+*.log
+Thumbs.db
+desktop.ini
+
+# --- Python (如果你用 Python) ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
