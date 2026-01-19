@@ -1,21 +1,18 @@
 import pandas as pd
+import os
 
-# 读取最新的路径流量聚合结果
-df = pd.read_parquet("final_path_flow_results.parquet")
+# 加载一个生成好的路径文件
+path_file = "path_data/20181024_d1_0830_0900_paths.parquet" # 替换为你的文件名
+df_path = pd.read_parquet(path_file)
 
-# 1. 基础信息展示
-print("--- 📂 路径级流量 (Path Flow) 预览 ---")
-# 展示前5行，重点看 path_id
-pd.set_option('display.max_colwidth', 50) # 限制路径显示的宽度
-print(df.head(10))
+# 1. 查看基础统计信息
+print(f"总计提取路径数: {len(df_path)}")
+print(f"平均路径长度 (路段数): {df_path['path_len'].mean():.2f}")
 
-# 2. 统计最热门的“路径”
-print("\n--- 🔥 流量最高的路径 Top 5 ---")
-top_paths = df.groupby('path_id')['path_flow_count'].sum().sort_values(ascending=False).head(5)
-print(top_paths)
-
-# 3. 路径复杂度分析
-print("\n--- 📈 路径规模统计 ---")
-print(f"唯一路径(Path)总数: {df['path_id'].nunique()}")
-print(f"平均每条路径包含的路段数: {df['path_id'].apply(lambda x: len(x.split(' -> '))).mean():.1f}")
-print(f"最大流量值: {df['path_flow_count'].max()}")
+# 2. 抽样查看具体路径内容
+# 期望看到结果如: ['edge_1', 'edge_2', 'edge_3']
+sample = df_path.sample(3)
+for _, row in sample.iterrows():
+    print(f"\n车辆 ID: {row['track_id']}")
+    print(f"开始时间: {row['timestamp']}")
+    print(f"路径序列: {row['edge_id']}")
